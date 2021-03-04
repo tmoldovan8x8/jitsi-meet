@@ -15,7 +15,7 @@ import { getSoundsPath } from './functions';
 /**
  * Adds {@link AudioElement} instance to the base/sounds feature state for the
  * {@link Sound} instance identified by the given id. After this action the
- * sound can be played by dispatching the {@link PLAY_SOUND} action.
+ * sound can be played by dispatching the {@link _ADD_AUDIO_ELEMENT} action.
  *
  * @param {string} soundId - The sound identifier for which the audio element
  * will be stored.
@@ -24,7 +24,7 @@ import { getSoundsPath } from './functions';
  * corresponding to the {@link Sound} with the given id.
  * @protected
  * @returns {{
- *     type: PLAY_SOUND,
+ *     type: _ADD_AUDIO_ELEMENT,
  *     audioElement: AudioElement,
  *     soundId: string
  * }}

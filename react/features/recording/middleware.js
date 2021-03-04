@@ -32,6 +32,8 @@ import {
     updateRecordingSessionData
 } from './actions';
 import {
+    E2EE_OFF_SOUND_ID,
+    E2EE_ON_SOUND_ID,
     LIVE_STREAMING_OFF_SOUND_ID,
     LIVE_STREAMING_ON_SOUND_ID,
     RECORDING_OFF_SOUND_ID,
@@ -39,6 +41,8 @@ import {
 } from './constants';
 import { getSessionById } from './functions';
 import {
+    E2EE_OFF_SOUND_FILE,
+    E2EE_ON_SOUND_FILE,
     LIVE_STREAMING_OFF_SOUND_FILE,
     LIVE_STREAMING_ON_SOUND_FILE,
     RECORDING_OFF_SOUND_FILE,
@@ -79,6 +83,14 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
     switch (action.type) {
     case APP_WILL_MOUNT:
         dispatch(registerSound(
+            E2EE_OFF_SOUND_ID,
+            E2EE_OFF_SOUND_FILE));
+
+        dispatch(registerSound(
+            E2EE_ON_SOUND_ID,
+            E2EE_ON_SOUND_FILE));
+        
+        dispatch(registerSound(
             LIVE_STREAMING_OFF_SOUND_ID,
             LIVE_STREAMING_OFF_SOUND_FILE));
 
@@ -97,6 +109,8 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
         break;
 
     case APP_WILL_UNMOUNT:
+        dispatch(unregisterSound(E2EE_OFF_SOUND_ID));
+        dispatch(unregisterSound(E2EE_ON_SOUND_ID));
         dispatch(unregisterSound(LIVE_STREAMING_OFF_SOUND_ID));
         dispatch(unregisterSound(LIVE_STREAMING_ON_SOUND_ID));
         dispatch(unregisterSound(RECORDING_OFF_SOUND_ID));

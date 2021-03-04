@@ -7,6 +7,8 @@ import { MiddlewareRegistry, StateListenerRegistry } from '../base/redux';
 import { TOGGLE_E2EE } from './actionTypes';
 import { toggleE2EE } from './actions';
 import logger from './logger';
+import { playSound } from '../base/sounds';
+import { E2EE_OFF_SOUND_ID, E2EE_ON_SOUND_ID } from '../recording/constants';
 
 /**
  * Middleware that captures actions related to E2EE.
@@ -19,11 +21,11 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
     case TOGGLE_E2EE: {
         const conference = getCurrentConference(getState);
 
-        if (conference) {
+        if (conference && conference.isE2EEEnabled() !== action.enabled) {
             logger.debug(`E2EE will be ${action.enabled ? 'enabled' : 'disabled'}`);
             conference.toggleE2EE(action.enabled);
 
-            // Broadccast that we enabled / disabled E2EE.
+            // Broadcast that we enabled / disabled E2EE.
             const participant = getLocalParticipant(getState);
 
             dispatch(participantUpdated({
@@ -31,6 +33,9 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
                 id: participant.id,
                 local: true
             }));
+
+            const soundID = action.enabled ? E2EE_ON_SOUND_ID : E2EE_OFF_SOUND_ID;
+            dispatch(playSound(soundID));
         }
 
         break;
