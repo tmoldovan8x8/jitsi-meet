@@ -5,10 +5,11 @@ import { getLocalParticipant, participantUpdated } from '../base/participants';
 import { MiddlewareRegistry, StateListenerRegistry } from '../base/redux';
 
 import { TOGGLE_E2EE } from './actionTypes';
-import { toggleE2EE } from './actions';
+import { e2eeMaxMode, toggleE2EE } from './actions';
 import logger from './logger';
 import { playSound } from '../base/sounds';
 import { E2EE_OFF_SOUND_ID, E2EE_ON_SOUND_ID } from '../recording/constants';
+import { JitsiConferenceEvents } from '../base/lib-jitsi-meet';
 
 /**
  * Middleware that captures actions related to E2EE.
@@ -52,7 +53,12 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
 StateListenerRegistry.register(
     state => getCurrentConference(state),
     (conference, { dispatch }, previousConference) => {
+        if (conference) { 
+            conference.on(JitsiConferenceEvents.E2EE_MAX_MODE_CHANGED, enabled => {
+                dispatch(e2eeMaxMode(enabled));
+            });
+        }
         if (previousConference) {
             dispatch(toggleE2EE(false));
         }
-    });
+});

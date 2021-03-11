@@ -39,11 +39,7 @@ function shouldUseHostPageLocalStorage(urlParams) {
     if (jitsiLocalStorage.isLocalStorageDisabled()) { // We have detected that ou own local storage is not working.
         return true;
     }
-
-    if (browser.isWebKitBased()) { // Webkit browsers don't persist local storage for third-party iframes.
-        return true;
-    }
-
+    
     return false;
 }
 

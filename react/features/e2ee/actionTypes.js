@@ -6,3 +6,5 @@
  * }
  */
 export const TOGGLE_E2EE = 'TOGGLE_E2EE';
+
+export const TOGGLE_E2EE_MAX_MODE = 'TOGGLE_E2EE_MAX_MODE';

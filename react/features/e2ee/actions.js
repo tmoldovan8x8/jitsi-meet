@@ -1,6 +1,6 @@
 // @flow
 
-import { TOGGLE_E2EE } from './actionTypes';
+import { TOGGLE_E2EE, TOGGLE_E2EE_MAX_MODE } from './actionTypes';
 
 /**
  * Dispatches an action to enable / disable E2EE.
@@ -11,6 +11,19 @@ import { TOGGLE_E2EE } from './actionTypes';
 export function toggleE2EE(enabled: boolean) {
     return {
         type: TOGGLE_E2EE,
+        enabled
+    };
+}
+
+/**
+ * Dispatches an action to enable / disable E2EE.
+ *
+ * @param {boolean} enabled - Whether E2EE is to be enabled or not.
+ * @returns {Object}
+ */
+export function toggleE2EEMaxMode(enabled: boolean) {
+    return {
+        type: TOGGLE_E2EE_MAX_MODE,
         enabled
     };
 }
