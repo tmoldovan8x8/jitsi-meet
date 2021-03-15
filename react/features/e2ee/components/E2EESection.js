@@ -179,12 +179,14 @@ class E2EESection extends Component<Props, State> {
  */
 function mapStateToProps(state) {
     const { enabled, maxModeEnabled } = state['features/e2ee'];
+    const { conference } = state['features/base/conference'];
+    const visible = conference.isE2EEEnabled() || !maxModeEnabled;
     const participants = getParticipants(state).filter(p => !p.local);
-
+    
     return {
         _enabled: enabled,
         _everyoneSupportsE2EE: participants.every(p => Boolean(p.e2eeSupported)),
-        _visible: !maxModeEnabled ?? true
+        _visible: visible
     };
 }
 
