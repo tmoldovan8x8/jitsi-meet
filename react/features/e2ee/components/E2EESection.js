@@ -10,7 +10,6 @@ import { Switch } from '../../base/react';
 import { connect } from '../../base/redux';
 import { toggleE2EE } from '../actions';
 
-
 type Props = {
 
     /**
@@ -22,6 +21,11 @@ type Props = {
      * Indicates whether all participants in the conference currently support E2EE.
      */
     _everyoneSupportsE2EE: boolean,
+
+    /**
+     * True of the label should be visible.
+     */
+    _visible: boolean,
 
     /**
      * The redux {@code dispatch} function.
@@ -95,6 +99,10 @@ class E2EESection extends Component<Props, State> {
      * @returns {ReactElement}
      */
     render() {
+        if (!this.props._visible) {
+            return null;
+        }
+
         const { _everyoneSupportsE2EE, t } = this.props;
         const { enabled, expand } = this.state;
         const description = t('dialog.e2eeDescription');
@@ -170,12 +178,13 @@ class E2EESection extends Component<Props, State> {
  * @returns {Props}
  */
 function mapStateToProps(state) {
-    const { enabled } = state['features/e2ee'];
+    const { enabled, maxModeEnabled } = state['features/e2ee'];
     const participants = getParticipants(state).filter(p => !p.local);
 
     return {
         _enabled: enabled,
-        _everyoneSupportsE2EE: participants.every(p => Boolean(p.e2eeSupported))
+        _everyoneSupportsE2EE: participants.every(p => Boolean(p.e2eeSupported)),
+        _visible: maxModeEnabled
     };
 }
 

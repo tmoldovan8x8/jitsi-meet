@@ -2,7 +2,7 @@
 
 import { ReducerRegistry } from '../base/redux';
 
-import { TOGGLE_E2EE } from './actionTypes';
+import { TOGGLE_E2EE, TOGGLE_E2EE_MAX_MODE } from './actionTypes';
 
 const DEFAULT_STATE = {
     enabled: false
@@ -18,7 +18,11 @@ ReducerRegistry.register('features/e2ee', (state = DEFAULT_STATE, action) => {
             ...state,
             enabled: action.enabled
         };
-
+    case TOGGLE_E2EE_MAX_MODE:
+        return {
+            ...state,
+            maxModeEnabled: action.enabled
+        };
     default:
         return state;
     }

@@ -5,7 +5,7 @@ import { getLocalParticipant, participantUpdated } from '../base/participants';
 import { MiddlewareRegistry, StateListenerRegistry } from '../base/redux';
 
 import { TOGGLE_E2EE } from './actionTypes';
-import { e2eeMaxMode, toggleE2EE } from './actions';
+import { toggleE2EE, toggleE2EEMaxMode } from './actions';
 import logger from './logger';
 import { playSound } from '../base/sounds';
 import { E2EE_OFF_SOUND_ID, E2EE_ON_SOUND_ID } from '../recording/constants';
@@ -55,7 +55,7 @@ StateListenerRegistry.register(
     (conference, { dispatch }, previousConference) => {
         if (conference) { 
             conference.on(JitsiConferenceEvents.E2EE_MAX_MODE_CHANGED, enabled => {
-                dispatch(e2eeMaxMode(enabled));
+                dispatch(toggleE2EEMaxMode(enabled));
             });
         }
         if (previousConference) {
