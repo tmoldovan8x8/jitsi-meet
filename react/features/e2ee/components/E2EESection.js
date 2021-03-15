@@ -184,7 +184,7 @@ function mapStateToProps(state) {
     return {
         _enabled: enabled,
         _everyoneSupportsE2EE: participants.every(p => Boolean(p.e2eeSupported)),
-        _visible: maxModeEnabled
+        _visible: !maxModeEnabled ?? true
     };
 }
 
