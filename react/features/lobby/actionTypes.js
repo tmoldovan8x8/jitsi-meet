@@ -24,3 +24,8 @@ export const SET_KNOCKING_STATE = 'SET_KNOCKING_STATE';
  * Action type to set the password join failed status.
  */
 export const SET_PASSWORD_JOIN_FAILED = 'SET_PASSWORD_JOIN_FAILED';
+
+/**
+ * Action type to set the new state of the lobby mode.
+ */
+export const SET_USER_LOBBY_MODE_ENABLED = 'SET_USER_LOBBY_MODE_ENABLED';

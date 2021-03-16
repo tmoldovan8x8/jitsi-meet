@@ -4,12 +4,13 @@ import { getCurrentConference } from '../base/conference';
 import { getLocalParticipant, participantUpdated } from '../base/participants';
 import { MiddlewareRegistry, StateListenerRegistry } from '../base/redux';
 
-import { TOGGLE_E2EE } from './actionTypes';
+import { TOGGLE_E2EE, TOGGLE_E2EE_MAX_MODE } from './actionTypes';
 import { toggleE2EE, toggleE2EEMaxMode } from './actions';
 import logger from './logger';
 import { playSound } from '../base/sounds';
 import { E2EE_OFF_SOUND_ID, E2EE_ON_SOUND_ID } from '../recording/constants';
 import { JitsiConferenceEvents } from '../base/lib-jitsi-meet';
+import { toggleLobbyMode } from '../lobby/actions.web';
 
 /**
  * Middleware that captures actions related to E2EE.
@@ -39,6 +40,19 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             dispatch(playSound(soundID));
         }
 
+        break;
+    }
+
+    case TOGGLE_E2EE_MAX_MODE: {
+        if (enabled) {
+            dispatch(toggleLobbyMode(true, false, true));
+        } else {
+            const { userLobbyEnabled } = getState()['features/lobby'];
+            if (!userLobbyEnabled) {
+                dispatch(toggleLobbyMode(false));
+            }
+        }
+       
         break;
     }
     }

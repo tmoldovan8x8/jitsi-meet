@@ -17,7 +17,8 @@ import {
     KNOCKING_PARTICIPANT_LEFT,
     SET_KNOCKING_STATE,
     SET_LOBBY_MODE_ENABLED,
-    SET_PASSWORD_JOIN_FAILED
+    SET_PASSWORD_JOIN_FAILED,
+    SET_USER_LOBBY_MODE_ENABLED
 } from './actionTypes';
 import { LobbyScreen } from './components';
 
@@ -160,6 +161,13 @@ export function setLobbyModeEnabled(enabled: boolean) {
     };
 }
 
+export function setUserLobbyModeEnabled(enabled: boolean) {
+    return {
+        enabled,
+        type: SET_USER_LOBBY_MODE_ENABLED
+    };
+}
+
 /**
  * Action to be dispatched when we failed to join with a password.
  *
@@ -204,9 +212,16 @@ export function startKnocking() {
  * @param {boolean} enabled - The desired (new) state of the lobby mode.
  * @returns {Function}
  */
-export function toggleLobbyMode(enabled: boolean) {
+export function toggleLobbyMode(enabled: boolean, userTriggered: boolean = true, autoReject: boolean = false) {
     return async (dispatch: Dispatch<any>, getState: Function) => {
+
+        if(userTriggered) {
+            dispatch(setUserLobbyModeEnabled(enabled));
+        }
+        
         const conference = getCurrentConference(getState);
+
+        conference.toggleLobbyAutoReject(autoReject);
 
         if (enabled) {
             conference.enableLobby();
