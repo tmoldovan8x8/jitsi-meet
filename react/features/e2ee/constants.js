@@ -13,3 +13,5 @@ export const E2EE_OFF_SOUND_ID = 'E2EE_OFF_SOUND';
  * @type {string}
  */
 export const E2EE_ON_SOUND_ID = 'E2EE_ON_SOUND';
+
+export const MAX_MODE_LIMIT = 3;

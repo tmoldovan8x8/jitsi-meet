@@ -2,13 +2,16 @@
 
 import { APP_WILL_MOUNT, APP_WILL_UNMOUNT } from '../base/app';
 import { getCurrentConference } from '../base/conference';
-import { getLocalParticipant, participantUpdated } from '../base/participants';
+import { getLocalParticipant,
+    participantUpdated,
+    PARTICIPANT_JOINED,
+    PARTICIPANT_LEFT } from '../base/participants';
 import { MiddlewareRegistry, StateListenerRegistry } from '../base/redux';
 import { playSound, registerSound, unregisterSound } from '../base/sounds';
 
 import { TOGGLE_E2EE } from './actionTypes';
-import { toggleE2EE } from './actions';
-import { E2EE_OFF_SOUND_ID, E2EE_ON_SOUND_ID } from './constants';
+import { toggleE2EE, toggleE2EEMaxMode } from './actions';
+import { E2EE_OFF_SOUND_ID, E2EE_ON_SOUND_ID, MAX_MODE_LIMIT } from './constants';
 import logger from './logger';
 import { E2EE_OFF_SOUND_FILE, E2EE_ON_SOUND_FILE } from './sounds';
 
@@ -19,6 +22,9 @@ import { E2EE_OFF_SOUND_FILE, E2EE_ON_SOUND_FILE } from './sounds';
  * @returns {Function}
  */
 MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
+    const conference = getCurrentConference(getState);
+    const participantsCount = conference && conference.getParticipants().length + 1;
+
     switch (action.type) {
     case APP_WILL_MOUNT:
         dispatch(registerSound(
@@ -35,9 +41,23 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
         dispatch(unregisterSound(E2EE_ON_SOUND_ID));
         break;
 
-    case TOGGLE_E2EE: {
-        const conference = getCurrentConference(getState);
+    case PARTICIPANT_JOINED:
+        if (participantsCount >= MAX_MODE_LIMIT) {
+            dispatch(toggleE2EEMaxMode(true));
 
+            if (conference.isE2EEEnabled()) {
+                dispatch(toggleE2EE(false));
+            }
+        }
+        break;
+
+    case PARTICIPANT_LEFT:
+        if (participantsCount < MAX_MODE_LIMIT) {
+            dispatch(toggleE2EEMaxMode(false));
+        }
+        break;
+
+    case TOGGLE_E2EE: {
         if (conference && conference.isE2EEEnabled() !== action.enabled) {
             logger.debug(`E2EE will be ${action.enabled ? 'enabled' : 'disabled'}`);
             conference.toggleE2EE(action.enabled);

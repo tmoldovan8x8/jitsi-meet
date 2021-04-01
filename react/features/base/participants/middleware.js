@@ -45,6 +45,7 @@ import {
     getParticipantDisplayName
 } from './functions';
 import { PARTICIPANT_JOINED_FILE, PARTICIPANT_LEFT_FILE } from './sounds';
+import { MAX_MODE_LIMIT } from '../../e2ee/constants';
 
 declare var APP: Object;
 
@@ -276,8 +277,9 @@ StateListenerRegistry.register(
  */
 function _e2eeUpdated({ dispatch }, conference, participantId, newValue) {
     const e2eeEnabled = newValue === 'true';
+    const participantsCount = conference && conference.getParticipants().length + 1;
 
-    if (e2eeEnabled) {
+    if (participantsCount < MAX_MODE_LIMIT && e2eeEnabled) {
         dispatch(toggleE2EE(e2eeEnabled));
     }
 
