@@ -118,7 +118,7 @@ class E2EESection extends Component<Props, State> {
                 <p className = 'description'>
                     { expand && description }
                     { !expand && description.substring(0, 100) }
-                    { !expand && <span
+                    { !expand && !disabled && <span
                         className = 'read-more'
                         onClick = { this._onExpand }>
                             ... { t('dialog.readMore') }
