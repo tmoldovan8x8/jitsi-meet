@@ -209,7 +209,10 @@ function logout(room: Object) {
     }).then(url => {
         // de-authenticate conference on the fly
         if (room.isJoined()) {
-            room.join();
+            const { flipDevice }
+                = APP.store.getState()['features/base/config'];
+
+            room.join(null, flipDevice);
         }
 
         return url;

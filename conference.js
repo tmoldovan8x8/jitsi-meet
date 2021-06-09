@@ -304,10 +304,14 @@ class ConferenceConnector {
 
         // not enough rights to create conference
         case JitsiConferenceErrors.AUTHENTICATION_REQUIRED: {
+            const { flipDevice }
+                = APP.store.getState()['features/base/config'];
+
+
             // Schedule reconnect to check if someone else created the room.
             this.reconnectTimeout = setTimeout(() => {
                 APP.store.dispatch(conferenceWillJoin(room));
-                room.join();
+                room.join(null, flipDevice);
             }, 5000);
 
             const { password }
@@ -393,8 +397,10 @@ class ConferenceConnector {
      *
      */
     connect() {
+        const { flipDevice } = APP.store.getState()['features/base/config'];
+
         // the local storage overrides here and in connection.js can be used by jibri
-        room.join(jitsiLocalStorage.getItem('xmpp_conference_password_override'));
+        room.join(jitsiLocalStorage.getItem('xmpp_conference_password_override'), flipDevice);
     }
 }
 
@@ -2167,7 +2173,16 @@ export default {
             JitsiConferenceEvents.LOCK_STATE_CHANGED,
             (...args) => APP.store.dispatch(lockStateChanged(room, ...args)));
 
-        room.on(JitsiConferenceEvents.KICKED, participant => {
+        room.on(JitsiConferenceEvents.KICKED, (participant, isReplaced) => {
+            if (isReplaced) {
+                const localParticipant = getLocalParticipant(APP.store.getState());
+
+                APP.store.dispatch(participantUpdated({
+                    conference: room,
+                    id: localParticipant.id,
+                    isReplaced
+                }));
+            }
             APP.store.dispatch(kickedOut(room, participant));
         });
 

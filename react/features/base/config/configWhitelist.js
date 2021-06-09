@@ -122,6 +122,7 @@ export default [
     'feedbackPercentage',
     'fileRecordingsEnabled',
     'firefox_fake_device',
+    'flipDevice',
     'forceJVB121Ratio',
     'forceTurnRelay',
     'gatherStats',
