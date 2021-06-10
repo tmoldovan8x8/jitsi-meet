@@ -68,6 +68,8 @@ export default [
      */
     'callUUID',
 
+    'replaceParticipant',
+
     'channelLastN',
     'constraints',
     'brandingRoomAlias',

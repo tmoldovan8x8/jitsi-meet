@@ -397,6 +397,7 @@ class ConferenceConnector {
      *
      */
     connect() {
+        console.log("XXX connect")
         const { flipDevice } = APP.store.getState()['features/base/config'];
 
         // the local storage overrides here and in connection.js can be used by jibri

@@ -151,10 +151,12 @@ public class MainActivity extends JitsiMeetActivity {
         JitsiMeetConferenceOptions defaultOptions
             = new JitsiMeetConferenceOptions.Builder()
             .setWelcomePageEnabled(true)
-            .setServerURL(buildURL(defaultURL))
+            .setServerURL(buildURL("https://abora6.jitsi.net"))
             .setFeatureFlag("call-integration.enabled", false)
             .setFeatureFlag("resolution", 360)
-            .setFeatureFlag("server-url-change.enabled", !configurationByRestrictions)
+            .setReplaceParticipant(true)
+            .setToken("eyJhbGciOiJSUzI1NiIsImtpZCI6Ijh4OG1lZXQtcHJvZC0yMDE5LTAxLTE1IiwidHlwIjoiSldUIn0.eyJhdWQiOiJqaXRzaSIsImNvbnRleHQiOnsidXNlciI6eyJpZCI6Imdvb2dsZS1vYXV0aDJ8MTE0Mjk4NzkyNTkzODg5NTU1MjMxIiwibmFtZSI6IlRpdHVzIE1vbGRvdmFuIiwiYXZhdGFyIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFUWEFKd3QtaGhTQXc4S1ZOQW51cExGempBRDFsSjd5VzV2ZGV1YmZnQ1g9czk2LWMiLCJlbWFpbCI6Im1vbGRvdmFuLnRpdHVzQGdtYWlsLmNvbSJ9LCJncm91cCI6IjY0ZmRiYWE3OWExNTQwMjc5N2JmYmMxOGE5ZTY4OThlIiwidGVuYW50IjoiVmdlZiIsImZlYXR1cmVzIjp7ImJyYW5kaW5nIjoidHJ1ZSIsImNhbGVuZGFyIjoidHJ1ZSIsImNhbGxzdGF0cyI6InRydWUiLCJsaXZlc3RyZWFtaW5nIjoidHJ1ZSIsImxvYmJ5IjoidHJ1ZSIsIm1vZGVyYXRpb24iOiJ0cnVlIiwicmVjb3JkaW5nIjoidHJ1ZSIsInJvb20iOiJ0cnVlIiwic2lwLW91dGJvdW5kLWNhbGwiOiJ0cnVlIiwidHJhbnNjcmlwdGlvbiI6InRydWUifX0sImV4cCI6MTYyMzMzMDE0NiwiaXNzIjoiY2hhdCIsIm5iZiI6MTYyMzI0Mzc0Niwicm9vbSI6IioiLCJzdWIiOiIqIn0.mumwyD1uoIymORu4ZrLkBx5YuOHu98C-Sv0zdqj8SQZAWTAlD0B3-z45OtQE-kO5HgEPaVkUBQCPO9MbLEGV8uOZKQjuMxBPuZUZvxJcyrU3O_Ah4SRAfjf8qkylOjBMIz-avi9BnrIDWI8ZG46NxCtdg7ZWE_NYo1UNMtM0-WhzaG9P-hgC2OXUQyOtOJd-J3e2UOY3J6zQ-THgbXu6MvpEn6kMmVcPVoKYr6quT9WYhiLQKVrwZMnyKnVGUVCVLpCIEvGZgYkPjfPG4mgm29Lie2q4WItl4_eJA2mBVG-0fTAi2UcCAjdO5mm_ZEy9IBGvBQg5d6PlCyeRHOY0sQ")
+            .setVideoMuted(true)
             .build();
         JitsiMeet.setDefaultConferenceOptions(defaultOptions);
     }
