@@ -434,7 +434,8 @@ export function createConference() {
         }
 
         const config = state['features/base/config'];
-        const { tenant } = state['features/base/jwt'];
+       const { tenant } = state['features/base/jwt'];
+      
         const { email, name: nick } = getLocalParticipant(state);
 
         const conference
@@ -460,7 +461,7 @@ export function createConference() {
 
         sendLocalParticipant(state, conference);
 
-        conference.join(password, config.replaceParticipant);
+        conference.join(password, true);
     };
 }
 
@@ -480,8 +481,10 @@ export function checkIfCanJoin() {
         const { replaceParticipant }
             = getState()['features/base/config'];
 
+        console.log("XXX replace participant", replaceParticipant);
+
         authRequired && dispatch(_conferenceWillJoin(authRequired));
-        authRequired && authRequired.join(password, replaceParticipant);
+        authRequired && authRequired.join(password, true);
     };
 }
 

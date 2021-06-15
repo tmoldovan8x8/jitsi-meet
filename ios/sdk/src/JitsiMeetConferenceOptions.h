@@ -37,6 +37,10 @@
  * JWT token used for authentication.
  */
 @property (nonatomic, copy, nullable) NSString *token;
+/**
+ * Set to YES to terminate the conference on other devices (if any).
+ */
+@property (nonatomic) BOOL replaceParticipant;
 
 /**
  * Color scheme override, see:
@@ -90,6 +94,7 @@
 @property (nonatomic, copy, nullable, readonly) NSString *room;
 @property (nonatomic, copy, nullable, readonly) NSString *subject;
 @property (nonatomic, copy, nullable, readonly) NSString *token;
+@property (nonatomic, readonly) BOOL replaceParticipant;
 
 @property (nonatomic, copy, nullable) NSDictionary *colorScheme;
 @property (nonatomic, readonly, nonnull) NSDictionary *featureFlags;

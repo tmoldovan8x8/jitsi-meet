@@ -48,6 +48,10 @@ public class JitsiMeetConferenceOptions implements Parcelable {
      * JWT token used for authentication.
      */
     private String token;
+    /**
+     * Set to {@code true} to terminate the conference on other devices (if any).
+     */
+    private Boolean replaceParticipant;
 
     /**
      * Color scheme override, see: https://github.com/jitsi/jitsi-meet/blob/dbedee5e22e5dcf9c92db96ef5bb3c9982fc526d/react/features/base/color-scheme/defaultScheme.js
@@ -120,6 +124,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         private String room;
         private String subject;
         private String token;
+        private Boolean replaceParticipant;
 
         private Bundle colorScheme;
         private Bundle featureFlags;
@@ -168,6 +173,20 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         }
 
         /**
+         * If this is set to true and the user (as specified in the JWT) is already in this conference on other devices,
+         * it will hang up on all the others.
+         *
+         * @param replaceParticipant - Close the conference for the current participant on other devices.
+         * @return - The {@link Builder} object itself so the method calls can be chained.
+         */
+        public Builder setReplaceParticipant(Boolean replaceParticipant) {
+            this.replaceParticipant = replaceParticipant;
+
+            return this;
+        }
+
+
+        /**
          * Sets the JWT token to be used for authentication when joining a conference.
          * @param token - The JWT token to be used for authentication.
          * @return - The {@link Builder} object itself so the method calls can be chained.
@@ -213,6 +232,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
 
             return this;
         }
+
         /**
          * Indicates the conference will be joined with the camera muted.
          * @param videoMuted - Muted indication.
@@ -273,6 +293,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
             options.room = this.room;
             options.subject = this.subject;
             options.token = this.token;
+            options.replaceParticipant = this.replaceParticipant;
             options.colorScheme = this.colorScheme;
             options.featureFlags = this.featureFlags;
             options.audioMuted = this.audioMuted;
@@ -331,6 +352,9 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         if (subject != null) {
             config.putString("subject", subject);
         }
+        if (replaceParticipant != null) {
+            config.putBoolean("replaceParticipant", replaceParticipant);
+        }
 
         Bundle urlProps = new Bundle();
 
@@ -387,6 +411,7 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         dest.writeByte((byte) (audioMuted == null ? 0 : audioMuted ? 1 : 2));
         dest.writeByte((byte) (audioOnly == null ? 0 : audioOnly ? 1 : 2));
         dest.writeByte((byte) (videoMuted == null ? 0 : videoMuted ? 1 : 2));
+        dest.writeByte((byte) (replaceParticipant == null ? 0 : replaceParticipant ? 1 : 2));
     }
 
     @Override
