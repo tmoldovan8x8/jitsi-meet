@@ -437,7 +437,6 @@ export function createConference() {
         const { tenant } = state['features/base/jwt'];
         const { email, name: nick } = getLocalParticipant(state);
 
-        logger.log("XXX createConference");
         const conference
             = connection.initJitsiConference(
 
@@ -462,6 +461,7 @@ export function createConference() {
         sendLocalParticipant(state, conference);
 
         logger.log("XXX createConference config", config);
+        logger.log("XXX createConference config1", config.replaceParticipant);
         conference.join(password, config.replaceParticipant);
     };
 }
