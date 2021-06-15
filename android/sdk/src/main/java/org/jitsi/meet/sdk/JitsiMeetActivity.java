@@ -67,10 +67,7 @@ public class JitsiMeetActivity extends FragmentActivity
 
     public static void launch(Context context, String url) {
         JitsiMeetConferenceOptions options
-            = new JitsiMeetConferenceOptions.Builder()
-                .setRoom(url)
-                .setReplaceParticipant(true)
-                .build();
+            = new JitsiMeetConferenceOptions.Builder().setRoom(url).build();
         launch(context, options);
     }
 

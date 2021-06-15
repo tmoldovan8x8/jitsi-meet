@@ -97,7 +97,7 @@ export function getPropertyValue(
 export function getServerURL(stateful: Object | Function) {
     const state = toState(stateful);
 
-    return "https://abora6.jitsi.net/";
+    return state['features/base/settings'].serverURL || DEFAULT_SERVER_URL;
 }
 
 /**
